@@ -1,0 +1,21 @@
+SQL-injections lesson 1
+
+Manual identification: 
+In querry of web application enter quote symbole and look after errors that application giving you: 
+
+Example:
+request
+  http://somewebsite/shopping/toys?category=metal
+in SQL will look like 
+  SELECT * FROM toys WHERE category = 'metal'
+Websites can add hidden data where url will look the same, but sql request will be different
+  SELECT * FROM toys WHERE category = 'metal' and show = 1
+
+First way to bypass this restriction and show us all the toys, not only the ones that site allows us:
+
+  SELECT * FROM toys WHERE category = 'metal'--' category = 1   
+	SELECT * FROM toys WHERE category = 'metal' OR 1=1--'
+
+-- is a comment indicator in SQL. This means that the rest of the query is interpreted as a comment, effectively removing it. So second part of the request (category = 1 ) will not be considered by database as mandatory
+OR 1=1'-- means that category named metal will not be considered because 1=1 will always be true
+
